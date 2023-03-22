@@ -1,6 +1,6 @@
 package LEXER;
 
-public enum Token
+public enum Tokens
 {
     ID,
     //ESTRUCTURAS DE CONTROL
