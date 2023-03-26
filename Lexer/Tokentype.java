@@ -1,16 +1,7 @@
 package Lexer;
 
-public class Tokentype 
-{
-    public enum Type
+public enum Tokentype
     {
-        //ESENCIALES
-        IDE,
-        STR,
-        //TIPOS DE DATOS
-        INT,
-        FLO,
-        CHA,
         //PALABRAS RESERVADAS
         IF,
         ELSE,
@@ -20,12 +11,15 @@ public class Tokentype
         FOR,
         SWITCH,
         CASE,
+        RETURN,
         //OPERADORES
+        OPERATOR,
         SUM,
         RES,
         MUL,
         DIV,
-        IGUAL,
+        IGU,
+        ASI,
         DIFERENTE,
         MAYOR,
         MENOR,
@@ -37,9 +31,10 @@ public class Tokentype
         LLAV_ABRE,
         LLAV_CIERRE,
         COMA,
-        PUNRO,
+        PUNTO,
         PUNTO_COMA,
-        //FIN DE CADENA
-        ENDS
+        //OTROS
+        IDE,
+        NUMBER,
+        END
     }
-}

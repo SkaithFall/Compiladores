@@ -6,11 +6,10 @@ public class Token
     private String lexeme;
     private int line;
 
-    public Token(Tokentype type, String lexeme, int line)
+    public Token(Tokentype type, String lexeme)
     {
         this.type = type;
         this.lexeme = lexeme;
-        this.line = line;
     }
 
     public Tokentype getType() 
