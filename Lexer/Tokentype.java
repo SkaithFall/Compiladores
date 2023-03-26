@@ -13,13 +13,11 @@ public enum Tokentype
         CASE,
         RETURN,
         //OPERADORES
-        OPERATOR,
         SUM,
         RES,
         MUL,
         DIV,
         IGU,
-        ASI,
         DIFERENTE,
         MAYOR,
         MENOR,
@@ -34,7 +32,8 @@ public enum Tokentype
         PUNTO,
         PUNTO_COMA,
         //OTROS
-        IDE,
+        ID,
         NUMBER,
+        STRING,
         END
     }

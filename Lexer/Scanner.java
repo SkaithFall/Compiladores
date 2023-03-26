@@ -1,6 +1,8 @@
 package Lexer;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class Scanner 
@@ -8,160 +10,67 @@ public class Scanner
     private String input;
     private int position;
     private Map<String, Tokentype> keywords;
+    private Map<Character, Tokentype> operators;
     
     public Scanner(String input)
     {
         this.input = input;
         this.position = 0;
 
-        this.keywords = new HashMap<String, Tokentype>();
-        this.keywords.put("if", Tokentype.IF);
-        this.keywords.put("else", Tokentype.ELSE);
-        this.keywords.put("while",Tokentype.WHILE);
-        this.keywords.put("do",Tokentype.DO);
-        this.keywords.put("switch", Tokentype.SWITCH);
-        this.keywords.put("case", Tokentype.CASE);
-        this.keywords.put("return", Tokentype.RETURN);
+        //PALABRAS CLAVE
+        keywords = new HashMap<>();
+        keywords.put("if", Tokentype.IF);
+        keywords.put("else", Tokentype.ELSE);
+        keywords.put("then", Tokentype.THEN);
+        keywords.put("while",Tokentype.WHILE);
+        keywords.put("do",Tokentype.DO);
+        keywords.put("switch", Tokentype.SWITCH);
+        keywords.put("case", Tokentype.CASE);
+        keywords.put("return", Tokentype.RETURN);
+        //OPERADORES
+        operators = new HashMap<>();
+        operators.put('=',Tokentype.IGU);
+        operators.put('+', Tokentype.SUM);
     }
 
-    public Token getNexToken()
-    {
-        while(position < input.length())
-        {
-            char entrada = input.charAt(position);
-
-            if(Character.isDigit(entrada))
-            {
-                return getNum();
-            } else if (Character.isLetter(entrada))
-            {
-                return getIDEorKYW();
-            } else if (entrada == ')')
-            {
-                position++;
-                return new Token(Tokentype.PAR_CIERRE, ")");
-            } else if (entrada == '{')
-            {
-                position++;
-                return new Token(Tokentype.LLAV_ABRE, "{");
-            } else if (entrada == '}')
-            {
-                position++;
-                return new Token(Tokentype.PAR_ABRE, "}");
-            } else if (entrada == ',')
-            {
-                position++;
-                return new Token(Tokentype.COMA, ",");
-            } else if (entrada == '.')
-            {
-                position++;
-                return new Token(Tokentype.PUNTO, ".");
-            } else if (entrada == ';')
-            {
-                position++;
-                return new Token(Tokentype.PUNTO_COMA, ";");
-            } else if (entrada == '+')
-            {
-                position++;
-                return new Token(Tokentype.SUM, "+");
-            } else if (entrada == '-')
-            {
-                position++;
-                return new Token(Tokentype.RES, "-");
-            } else if (entrada == '*')
-            {
-                position++;
-                return new Token(Tokentype.MUL, "*");
-            } else if (entrada == '/')
-            {
-                position++;
-                return new Token(Tokentype.DIV, "/");
-            } else if (entrada == '>')
-            {
-                position++;
-                if (position < input.length() && input.charAt(position) == '=')
-                {
-                    position++;
-                    return new Token(Tokentype.MAYOR_IGUAL, ">=");
-                }
-                return new Token(Tokentype.MAYOR, ">");
-            } else if (entrada == '<')
-            {
-                position++;
-                if (position < input.length() && input.charAt(position) == '=')
-                {
-                    position++;
-                    return new Token(Tokentype.MENOR_IGUAL, "<=");
-                }
-                return new Token(Tokentype.MENOR, "<");
-            } else if (entrada == '=')
-            {
-                position++;
-                if (position < input.length() && input.charAt(position) == '=')
-                {
-                    position++;
-                    return new Token(Tokentype.ASI, "==");
-                }
-                return new Token(Tokentype.IGU, "=");
-            } else if (entrada == '!')
-            {
-                position++;
-                if (position < input.length() && input.charAt(position) == '=')
-                {
-                    position++;
-                    return new Token(Tokentype.DIFERENTE, "!=");
-                }
-                throw new RuntimeException("Operador invalido: !");
-            }
-            {
-                throw new IllegalArgumentException("Caracter Invalido:"+entrada);
-            }
-        } 
+    public List<Token> scan() {
+        List<Token> tokens = new LinkedList<>();
         
-        return new Token(Tokentype.END,"END");
-    }
-
-    private Token getNum() 
-    {
-        StringBuilder sb = new StringBuilder();
-        char entrada = input.charAt(position);
-
-        while(position < input.length() && Character.isDigit(entrada))
-        {
-            sb.append(entrada);
-            position++;
-            if(position < input.length())
-            {
-                entrada = input.charAt(position);
+        while (position < input.length()) {
+            char currentChar = input.charAt(position);
+            
+            if (Character.isDigit(currentChar)) {
+                // Token de número
+                int value = 0;
+                while (position < input.length() && Character.isDigit(input.charAt(position))) {
+                    value = value * 10 + Character.getNumericValue(input.charAt(position));
+                    position++;
+                }
+                tokens.add(new Token(Tokentype.NUMBER, Integer.toString(value)));
+            } else if (Character.isLetter(currentChar)) {
+                // Token de palabra clave o identificador
+                StringBuilder sb = new StringBuilder();
+                while (position < input.length() && (Character.isLetterOrDigit(input.charAt(position)) || input.charAt(position) == '_')) {
+                    sb.append(input.charAt(position));
+                    position++;
+                }
+                String word = sb.toString();
+                Tokentype type = keywords.getOrDefault(word, Tokentype.ID);
+                tokens.add(new Token(type, word));
+            } else if (operators.containsKey(currentChar)) {
+                // Token de operador
+                Tokentype type = operators.get(currentChar);
+                tokens.add(new Token(type, Character.toString(currentChar)));
+                position++;
+            } else if (Character.isWhitespace(currentChar)) {
+                // Ignorar espacios en blanco
+                position++;
             }
         }
-
-        return new Token(Tokentype.NUMBER, sb.toString());
-    }
-
-    private Token getIDEorKYW() 
-    {
-        StringBuilder sb = new StringBuilder();
-        char entrada = input.charAt(position);
-
-        while (position < input.length() && (Character.isLetterOrDigit(entrada) || entrada == '_'))
-        {
-            sb.append(entrada);
-            position++;
-            if(position < input.length())
-            {
-                entrada = input.charAt(position);
-            } 
-        }
-
-        String ide = sb.toString();
-
-        Tokentype type = Tokentype.IDE;
-        if(keywords.containsKey(ide))
-        {
-            type = keywords.get(ide);
-        }
-
-        return new Token(type, ide);
+        
+        // Agregar token de fin de archivo
+        tokens.add(new Token(Tokentype.END, ""));
+        
+        return tokens;
     }
 }
