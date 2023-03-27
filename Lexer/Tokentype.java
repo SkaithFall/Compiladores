@@ -1,7 +1,7 @@
 package Lexer;
 
 public enum Tokentype
-    {
+{
         //PALABRAS RESERVADAS
         IF,
         ELSE,
@@ -37,4 +37,4 @@ public enum Tokentype
         NUMBER,
         STRING,
         END
-    }
+}

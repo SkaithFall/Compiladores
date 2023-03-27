@@ -2,9 +2,9 @@ package Lexer;
 
 public class Token 
 {
-    final Tokentype type;
-    final String lexeme;
-    final int line;
+    private Tokentype type;
+    private String lexeme;
+    private int line;
 
     public Token(Tokentype type, String lexeme, int line)
     {
@@ -28,9 +28,8 @@ public class Token
         return line;
     }
 
-    @Override
     public String toString() 
     {
-        return type + " " + lexeme + " at line " + line;
+        return type + " :" + lexeme + " at line " + line;
     }
 }
