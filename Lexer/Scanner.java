@@ -61,7 +61,7 @@ public class Scanner
                 {
                     tokentype = Tokentype.ID;
                 }
-                tokens.add(new Token(tokentype, identifier));
+                tokens.add(new Token(tokentype, identifier,position));
             } else if (Character.isDigit(entrada))
             {
                 //PARA NUMERO
@@ -72,7 +72,7 @@ public class Scanner
                     number += input.charAt(position);
                     position++;
                 }
-                tokens.add(new Token(Tokentype.NUMBER, number));
+                tokens.add(new Token(Tokentype.NUMBER, number, position));
             } else if (entrada == '"')
             {
                 //PARA CADENAS
@@ -85,83 +85,83 @@ public class Scanner
                     position++;
                 }
                 position++;
-                tokens.add(new Token(Tokentype.STRING, string));
+                tokens.add(new Token(Tokentype.STRING, string, position));
             } else 
             {
                 //PARA SIMBOLOS Y OPERADORES
                 switch(entrada)
                 {
                     case '+':
-                    tokens.add(new Token(Tokentype.SUMA, "+"));
+                    tokens.add(new Token(Tokentype.SUMA, "+", position));
                     position++;
                     break;
                     case '-':
-                    tokens.add(new Token(Tokentype.RESTA, "-"));
+                    tokens.add(new Token(Tokentype.RESTA, "-", position));
                     position++;
                     break;
                     case '*':
-                    tokens.add(new Token(Tokentype.MULTI, "*"));
+                    tokens.add(new Token(Tokentype.MULTI, "*", position));
                     case '/':
-                    tokens.add(new Token(Tokentype.DIV, "/"));
+                    tokens.add(new Token(Tokentype.DIV, "/", position));
                     case '=':
                     if (position + 1 < input.length() && input.charAt(position + 1) == '=')
                     {
-                        tokens.add(new Token(Tokentype.IGUAL, "=="));
+                        tokens.add(new Token(Tokentype.IGUAL, "==", position));
                         position += 2;
                     } else 
                     {
-                        tokens.add(new Token(Tokentype.ASIGNACION, "="));
+                        tokens.add(new Token(Tokentype.ASIGNACION, "=", position));
                         position++;
                     }
                     break;
                     case '<':
                     if (position +1 < input.length() && input.charAt(position + 1) == '=')
                     {
-                        tokens.add(new Token(Tokentype.MENOR_IGUAL, "<="));
+                        tokens.add(new Token(Tokentype.MENOR_IGUAL, "<=", position));
                         position += 2;
                     } else 
                     {
-                        tokens.add(new Token(Tokentype.MENOR, "<"));
+                        tokens.add(new Token(Tokentype.MENOR, "<", position));
                         position++;
                     }
                     break;
                     case '>':
                     if (position +1 < input.length() && input.charAt(position + 1) == '=')
                     {
-                        tokens.add(new Token(Tokentype.MAYOR_IGUAL, ">="));
+                        tokens.add(new Token(Tokentype.MAYOR_IGUAL, ">=", position));
                         position += 2;
                     } else 
                     {
-                        tokens.add(new Token(Tokentype.MAYOR, ">"));
+                        tokens.add(new Token(Tokentype.MAYOR, ">", position));
                         position++;
                     }
                     break;
                     case '(':
-                    tokens.add(new Token(Tokentype.PAR_ABRE, "("));
+                    tokens.add(new Token(Tokentype.PAR_ABRE, "(", position));
                     position++;
                     break;
                     case ')':
-                    tokens.add(new Token(Tokentype.PAR_CIERRE, ")"));
+                    tokens.add(new Token(Tokentype.PAR_CIERRE, ")", position));
                     position++;
                     break;
                     case '{':
-                    tokens.add(new Token(Tokentype.LLAV_ABRE, "{"));
+                    tokens.add(new Token(Tokentype.LLAV_ABRE, "{", position));
                     position++;
                     break;
                     case '}':
-                    tokens.add(new Token(Tokentype.LLAV_CIERRE, "}"));
+                    tokens.add(new Token(Tokentype.LLAV_CIERRE, "}", position));
                     position++;
                     break;
                     case '.':
-                    tokens.add(new Token(Tokentype.PUNTO, "."));
+                    tokens.add(new Token(Tokentype.PUNTO, ".", position));
                     position++;
                     break;
                     case ',':
-                    tokens.add(new Token(Tokentype.COMA, ","));
+                    tokens.add(new Token(Tokentype.COMA, ",", position));
                     position++;
                     break;
                     case ';':
-                    tokens.add(new Token(Tokentype.PUNTO_COMA, ";"));
+                    tokens.add(new Token(Tokentype.PUNTO_COMA, ";", position));
                     position++;
                     break;
                     default:
@@ -170,7 +170,7 @@ public class Scanner
                 }
             }
         }
-        tokens.add(new Token(Tokentype.END, "$"));
+        tokens.add(new Token(Tokentype.END, "$", position));
         return tokens;
     }
 
