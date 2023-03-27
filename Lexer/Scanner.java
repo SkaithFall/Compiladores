@@ -1,7 +1,7 @@
 package Lexer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +10,7 @@ public class Scanner
     private String input;
     private int position;
     private Map<String, Tokentype> keywords;
-    private Map<Character, Tokentype> operators;
+    private List<Token> tokens = new ArrayList<>();
     
     public Scanner(String input)
     {
@@ -27,50 +27,152 @@ public class Scanner
         keywords.put("switch", Tokentype.SWITCH);
         keywords.put("case", Tokentype.CASE);
         keywords.put("return", Tokentype.RETURN);
-        //OPERADORES
-        operators = new HashMap<>();
-        operators.put('=',Tokentype.IGU);
-        operators.put('+', Tokentype.SUM);
+
     }
 
-    public List<Token> scan() {
-        List<Token> tokens = new LinkedList<>();
-        
-        while (position < input.length()) {
-            char currentChar = input.charAt(position);
-            
-            if (Character.isDigit(currentChar)) {
-                // Token de número
-                int value = 0;
-                while (position < input.length() && Character.isDigit(input.charAt(position))) {
-                    value = value * 10 + Character.getNumericValue(input.charAt(position));
+    public List<Token> scanList()
+    {
+        while(position < input.length())
+        {
+
+            char entrada = input.charAt(position);
+
+            if(Character.isWhitespace(entrada))
+            {
+                //IGNORAR ESPACIOS VACIOS
+                position++;
+            } else if (Character.isLetter(entrada))
+            {
+                //PARA IDENTIFICADOR
+                String identifier = "";
+
+                while(position < input.length() && Character.isLetterOrDigit(input.charAt(position)))
+                {
+                    identifier += input.charAt(position);
                     position++;
                 }
-                tokens.add(new Token(Tokentype.NUMBER, Integer.toString(value)));
-            } else if (Character.isLetter(currentChar)) {
-                // Token de palabra clave o identificador
-                StringBuilder sb = new StringBuilder();
-                while (position < input.length() && (Character.isLetterOrDigit(input.charAt(position)) || input.charAt(position) == '_')) {
-                    sb.append(input.charAt(position));
+
+                Tokentype tokentype;
+                
+                if(keywords.containsKey(identifier))
+                {
+                    tokentype = keywords.get(identifier);
+                } else 
+                {
+                    tokentype = Tokentype.ID;
+                }
+                tokens.add(new Token(tokentype, identifier));
+            } else if (Character.isDigit(entrada))
+            {
+                //PARA NUMERO
+                String number = "";
+
+                while( position < input.length() && Character.isDigit(input.charAt(position)))
+                {
+                    number += input.charAt(position);
                     position++;
                 }
-                String word = sb.toString();
-                Tokentype type = keywords.getOrDefault(word, Tokentype.ID);
-                tokens.add(new Token(type, word));
-            } else if (operators.containsKey(currentChar)) {
-                // Token de operador
-                Tokentype type = operators.get(currentChar);
-                tokens.add(new Token(type, Character.toString(currentChar)));
+                tokens.add(new Token(Tokentype.NUMBER, number));
+            } else if (entrada == '"')
+            {
+                //PARA CADENAS
+                String string = "";
+                
                 position++;
-            } else if (Character.isWhitespace(currentChar)) {
-                // Ignorar espacios en blanco
+                while(position < input.length() && input.charAt(position) != '"')
+                {
+                    string += input.charAt(position);
+                    position++;
+                }
                 position++;
+                tokens.add(new Token(Tokentype.STRING, string));
+            } else 
+            {
+                //PARA SIMBOLOS Y OPERADORES
+                switch(entrada)
+                {
+                    case '+':
+                    tokens.add(new Token(Tokentype.SUMA, "+"));
+                    position++;
+                    break;
+                    case '-':
+                    tokens.add(new Token(Tokentype.RESTA, "-"));
+                    position++;
+                    break;
+                    case '*':
+                    tokens.add(new Token(Tokentype.MULTI, "*"));
+                    case '/':
+                    tokens.add(new Token(Tokentype.DIV, "/"));
+                    case '=':
+                    if (position + 1 < input.length() && input.charAt(position + 1) == '=')
+                    {
+                        tokens.add(new Token(Tokentype.IGUAL, "=="));
+                        position += 2;
+                    } else 
+                    {
+                        tokens.add(new Token(Tokentype.ASIGNACION, "="));
+                        position++;
+                    }
+                    break;
+                    case '<':
+                    if (position +1 < input.length() && input.charAt(position + 1) == '=')
+                    {
+                        tokens.add(new Token(Tokentype.MENOR_IGUAL, "<="));
+                        position += 2;
+                    } else 
+                    {
+                        tokens.add(new Token(Tokentype.MENOR, "<"));
+                        position++;
+                    }
+                    break;
+                    case '>':
+                    if (position +1 < input.length() && input.charAt(position + 1) == '=')
+                    {
+                        tokens.add(new Token(Tokentype.MAYOR_IGUAL, ">="));
+                        position += 2;
+                    } else 
+                    {
+                        tokens.add(new Token(Tokentype.MAYOR, ">"));
+                        position++;
+                    }
+                    break;
+                    case '(':
+                    tokens.add(new Token(Tokentype.PAR_ABRE, "("));
+                    position++;
+                    break;
+                    case ')':
+                    tokens.add(new Token(Tokentype.PAR_CIERRE, ")"));
+                    position++;
+                    break;
+                    case '{':
+                    tokens.add(new Token(Tokentype.LLAV_ABRE, "{"));
+                    position++;
+                    break;
+                    case '}':
+                    tokens.add(new Token(Tokentype.LLAV_CIERRE, "}"));
+                    position++;
+                    break;
+                    case '.':
+                    tokens.add(new Token(Tokentype.PUNTO, "."));
+                    position++;
+                    break;
+                    case ',':
+                    tokens.add(new Token(Tokentype.COMA, ","));
+                    position++;
+                    break;
+                    case ';':
+                    tokens.add(new Token(Tokentype.PUNTO_COMA, ";"));
+                    position++;
+                    break;
+                    default:
+                    throw new IllegalArgumentException("Caracter inesperado:"+entrada);
+
+                }
             }
         }
-        
-        // Agregar token de fin de archivo
-        tokens.add(new Token(Tokentype.END, ""));
-        
+        tokens.add(new Token(Tokentype.END, "$"));
         return tokens;
     }
+
+    
 }

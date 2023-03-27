@@ -21,30 +21,39 @@ public class Lexer
         }
     }
     
-    private static void ejecutarArchivo(String path) throws IOException
+    private static void ejecutarArchivo(String path)
     {
-        byte[] bytes = Files.readAllBytes(Paths.get(path));
-        ejecutar(new String(bytes, Charset.defaultCharset()));
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(path));
+            ejecutar(new String(bytes, Charset.defaultCharset()));
+        } catch (IOException e) {
+            System.err.println("Error: no se pudo leer el archivo " + path);
+        }
     }
+    
 
-    private static void ejecutarPrompt() throws IOException
+    private static void ejecutarPrompt() 
     {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
-
-        for(;;)
-        {
-            System.out.println(">>>");
-            String linea = reader.readLine();
-            if (linea == null) break;
-            ejecutar(linea);
+    
+        for (;;) {
+            try {
+                System.out.println(">>>");
+                String linea = reader.readLine();
+                if (linea == null) break;
+                ejecutar(linea);
+            } catch (IOException e) {
+                System.err.println("Error: no se pudo leer la entrada del usuario");
+            }
         }
     }
+    
 
     private static void ejecutar(String source)
     {
         Scanner scanner = new Scanner(source);
-        List<Token> tokens = scanner.scan();
+        List<Token> tokens = scanner.scanList();
 
         for(Token token : tokens)
         {
