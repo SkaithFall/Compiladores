@@ -1,5 +1,4 @@
 package Parser;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,15 +18,10 @@ public class Scanner
 
         //PALABRAS CLAVE
         keywords = new HashMap<>();
-        keywords.put("if", Tokentype.IF);
+        keywords.put("if", Tokentype.SUPER);
         keywords.put("else", Tokentype.ELSE);
-        keywords.put("then", Tokentype.THEN);
         keywords.put("while",Tokentype.WHILE);
-        keywords.put("do",Tokentype.DO);
-        keywords.put("switch", Tokentype.SWITCH);
-        keywords.put("case", Tokentype.CASE);
         keywords.put("return", Tokentype.RETURN);
-
     }
 
     public List<Token> scanList()
