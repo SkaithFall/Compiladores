@@ -1,4 +1,4 @@
-package Parser;
+package Compilador;
 
 public enum Tokentype
 {
@@ -25,7 +25,7 @@ public enum Tokentype
         MULTI,
         DIV,
         IGUAL,
-        ASIGNACION,
+        ASIG,
         DIFERENTE,
         MAYOR,
         MENOR,
