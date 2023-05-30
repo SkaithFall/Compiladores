@@ -3,15 +3,22 @@ package Parser;
 public enum Tokentype
 {
         //PALABRAS RESERVADAS
-        IF,
-        ELSE,
-        THEN,
+        SUPER,
+        TRUE,
+        FALSE,
+        NULL,
+        THIS,
+        NUMBER,
+        STRING,
+        AND,
+        OR,
         WHILE,
-        DO,
+        ELSE,
         FOR,
-        SWITCH,
-        CASE,
         RETURN,
+        PRINT,
+        FUN,
+        CLASS,
         //OPERADORES
         SUMA,
         RESTA,
@@ -34,7 +41,5 @@ public enum Tokentype
         PUNTO_COMA,
         //OTROS
         ID,
-        NUMBER,
-        STRING,
         END
 }
