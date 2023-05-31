@@ -4,20 +4,20 @@ public class Token
 {
     final Tokentype type;
     final String lexeme;
-    final int line;
+    final int posicion;
 
-    public Token(Tokentype type, String lexeme, int line)
+    public Token(Tokentype type, String lexeme, int posicion)
     {
         this.type = type;
         this.lexeme = lexeme;
-        this.line = line;
+        this.posicion = posicion;
     }
 
     public Token(Tokentype type, String lexeme)
     {
         this.type = type;
         this.lexeme = lexeme;
-        this.line = 0;
+        this.posicion = 0;
     }
 
     @Override
@@ -35,6 +35,6 @@ public class Token
 
     public String toString() 
     {
-        return type + " :" + lexeme + " at line " + line;
+        return type + " :" + lexeme + "";
     }
 }
