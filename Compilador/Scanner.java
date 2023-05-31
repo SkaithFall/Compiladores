@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class Scanner {
     private final String source;
 
@@ -122,8 +123,24 @@ public class Scanner {
                     else if(caracter == '.'){
                         tokens.add(new Token(Tokentype.PUNTO, ".", i + 1));
                     }
+                    else if(caracter == ';')
+                    {
+                        tokens.add(new Token(Tokentype.PUNTO_COMA, ";", i + 1));
+                    }
                     else if(Character.isAlphabetic(caracter)){
                         estado = 1;
+                        lexema = lexema + caracter;
+                        inicioLexema = i;
+                    }
+                    else if(Character.isDigit(caracter))
+                    {
+                        estado = 2;
+                        lexema = lexema + caracter;
+                        inicioLexema = i;
+                    }
+                    else if(caracter == '"')
+                    {
+                        estado = 3;
                         lexema = lexema + caracter;
                         inicioLexema = i;
                     }
@@ -133,22 +150,76 @@ public class Scanner {
                     if(Character.isAlphabetic(caracter) || Character.isDigit(caracter) ){
                         lexema = lexema + caracter;
                     }
-                    else{
+                    else
+                    {
                         Tokentype tt = keywords.get(lexema);
-                        if(tt == null){
+                        if(tt == null)
+                        {
                             tokens.add(new Token(Tokentype.ID, lexema, inicioLexema + 1));
                         }
-                        else{
+                        else
+                        {
                             tokens.add(new Token(tt, lexema, inicioLexema + 1));
                         }
-
                         estado = 0;
                         i--;
                         lexema = "";
                         inicioLexema = 0;
                     }
                     break;
+                case 2:
+                    if(Character.isDigit(caracter) || caracter == '.' )
+                    {
+                        lexema = lexema + caracter;
+                    }
+                    else
+                    {
+                        if (lexema.contains("."))
+                        {
+                           try
+                           {
+                            tokens.add(new Token(Tokentype.NUMBER, lexema, inicioLexema + 1));
+                           } 
+                           catch (NumberFormatException e)
+                           {
+                            tokens.add(new Token(Tokentype.ERROR, lexema, inicioLexema + 1));
+                           } 
+                        }
+                        else 
+                        {
+                            try
+                            {
+                                tokens.add(new Token(Tokentype.NUMBER, lexema, inicioLexema + 1));
+                            } 
+                            catch (NumberFormatException e)
+                            {
+                                tokens.add(new Token(Tokentype.ERROR, lexema, inicioLexema + 1));
+                            }
+                        }
+                        estado = 0;
+                        i--;
+                        lexema = "";
+                        inicioLexema = 0;
+                    }
+                    break;
+                case 3:
+                    lexema = lexema + caracter;
+                    if (caracter == '"') 
+                    {
+                        if (lexema.length() > 1 && lexema.charAt(lexema.length() - 2) != '\\')
+                        {
+                            tokens.add(new Token(Tokentype.STRING, lexema, inicioLexema + 1));
+                            estado = 0;
+                            lexema = "";
+                            inicioLexema = 0;
+                        }
+                    }
+                    break;
             }
+        }
+
+        if (estado != 0) {
+            throw new Error("Error: No se encontró el cierre de las comillas para el lexema de tipo string.");
         }
         tokens.add(new Token(Tokentype.END, "", source.length()));
 

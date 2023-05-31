@@ -24,5 +24,6 @@ public enum Tokentype
         COMA, PUNTO,
         PUNTO_COMA,
         //OTROS
-        ID, END
+        ID, END, 
+        ERROR
 }
