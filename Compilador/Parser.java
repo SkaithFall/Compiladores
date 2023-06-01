@@ -82,6 +82,8 @@ public class Parser
         }
     }
 
+    //DECLARACIONES
+
     void DECLARATION()
     {
         if(hayErrores) return;
@@ -182,6 +184,40 @@ public class Parser
             EXPRESSION();
         }
     }
+
+    //SENTENCIAS
+
+    void STATEMENT()
+    {
+        if(hayErrores) return;
+
+        if(preanalisis.equals(EXPR_STMT))
+        {
+            coincidir(EXPR_STMT);
+        }
+        else
+        {
+            hayErrores = true;
+            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + EXPR_STMT.type);
+        }
+    }
+
+    void EXPR_STMT()
+    {
+        if(hayErrores) return;
+
+        if(preanalisis.equals(EXPRESSION))
+        {
+            coincidir(EXPRESSION);
+            coincidir(PUNTO_COMA);
+        }
+        else
+        {
+            hayErrores = true;
+            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + EXPRESSION.type);
+        }
+    }
+
 
     private void coincidir(Token t) 
     {
