@@ -64,12 +64,12 @@ public class Scanner {
                     {
                         if(nxtcaracter == '=')
                         {
-                            tokens.add(new Token(Tokentype.ASIG, "==", i + 1));
+                            tokens.add(new Token(Tokentype.IGUAL, "==", i + 1));
                             i++;
                         }
                         else
                         {
-                            tokens.add(new Token(Tokentype.IGUAL, "=", i + 1));
+                            tokens.add(new Token(Tokentype.ASIG, "=", i + 1));
                         }
                     }
                     else if(caracter == '(')
