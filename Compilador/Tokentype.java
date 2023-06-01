@@ -11,6 +11,7 @@ public enum Tokentype
         ELSE, FOR,
         RETURN, PRINT,
         FUN, CLASS,
+        IF,
         //OPERADORES
         SUMA, RESTA,
         MULTI, DIV,
@@ -21,8 +22,8 @@ public enum Tokentype
         //SIMBOLOS
         PAR_ABRE, PAR_CIERRE,
         LLAV_ABRE, LLAV_CIERRE,
-        COMA, PUNTO,
-        PUNTO_COMA,
+        COMA, PUNTO, PUNTO_COMA,
+        NOT,
         //OTROS
         ID, END, 
         ERROR

@@ -22,6 +22,7 @@ public class Scanner {
         keywords.put("and", Tokentype.AND);
         keywords.put("or", Tokentype.OR);
         keywords.put("while", Tokentype.WHILE);
+        keywords.put("if", Tokentype.IF);
         keywords.put("else", Tokentype.ELSE);
         keywords.put("return", Tokentype.RETURN);
         keywords.put("print", Tokentype.PRINT);
@@ -112,11 +113,19 @@ public class Scanner {
                             tokens.add(new Token(Tokentype.MAYOR, ">", i + 1));
                         }
                     }
-                    else if(caracter == '!' && nxtcaracter == '=')
+                    else if(caracter == '!')
                     {
-                        tokens.add(new Token(Tokentype.DIFERENTE, "!=", i + 1));
-                        i++;
+                        if(caracter == '=')
+                        {
+                            tokens.add(new Token(Tokentype.DIFERENTE, "!=", i + 1));
+                            i++;
+                        }
+                        else
+                        {
+                            tokens.add(new Token(Tokentype.NOT, "!", i + 1));
+                        }
                     }
+                    
                     else if(caracter == ','){
                         tokens.add(new Token(Tokentype.COMA, ",", i + 1));
                     }
