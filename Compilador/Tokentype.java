@@ -11,7 +11,7 @@ public enum Tokentype
         ELSE, FOR,
         RETURN, PRINT,
         FUN, CLASS,
-        IF,
+        IF, VAR,
         //OPERADORES
         SUMA, RESTA,
         MULTI, DIV,
@@ -26,5 +26,5 @@ public enum Tokentype
         NOT,
         //OTROS
         ID, END, 
-        ERROR
+        ERROR, 
 }

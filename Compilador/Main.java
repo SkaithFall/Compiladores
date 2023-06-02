@@ -34,8 +34,8 @@ public class Main {
             System.out.println(token);
         }
 
-        /*Parser parser = new Parser(tokens);
-        parser.parse();*/
+        Parser parser = new Parser(tokens);
+        parser.parse();
     }
     static void error(int linea, String mensaje){
         reportar(linea, "", mensaje);

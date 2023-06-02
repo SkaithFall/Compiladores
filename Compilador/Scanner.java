@@ -28,6 +28,7 @@ public class Scanner {
         keywords.put("print", Tokentype.PRINT);
         keywords.put("for", Tokentype.FOR);
         keywords.put("fun", Tokentype.FUN);
+        keywords.put("var", Tokentype.VAR);
     }
 
     Scanner(String source){
