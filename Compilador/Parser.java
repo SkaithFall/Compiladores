@@ -619,7 +619,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.posicion);
         }    
     }
 
