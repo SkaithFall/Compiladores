@@ -35,6 +35,6 @@ public class Token
 
     public String toString() 
     {
-        return type + " :" + lexeme + "";
+        return type + " :" + lexeme + "" + posicion + " ";
     }
 }

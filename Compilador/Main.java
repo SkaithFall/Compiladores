@@ -1,6 +1,7 @@
 package Compilador;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -12,18 +13,55 @@ public class Main {
     public static void main(String[] args) throws IOException {
         ejecutarPrompt();
     }
+    
 
-    private static void ejecutarPrompt() throws IOException{
+    private static void ejecutarPrompt() throws IOException
+    {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
 
-        for(;;){
+        StringBuilder entrada = new StringBuilder();
+        boolean salir = false;
+        
+        while (!salir) 
+        {
             System.out.print(">>> ");
             String linea = reader.readLine();
-            if(linea == null) break; // Presionar Ctrl + D
-            ejecutar(linea);
+
+            if (linea == null) 
+            {
+                if (entrada.length() > 0) 
+                {
+                    ejecutar(entrada.toString()); // Ejecutar la entrada concatenada
+                    entrada.setLength(0); // Reiniciar la entrada para la siguiente iteración
+                }
+                break;
+            }
+            
+            if (linea.equalsIgnoreCase("archivo")) 
+            {
+                System.out.print("Ingrese el nombre del archivo: ");
+                String nombreArchivo = reader.readLine();
+                ejecutarArchivo(nombreArchivo);
+            } else 
+            {
+                entrada.append(linea).append(" "); // Agregar la línea actual a la entrada con un espacio
+            }
             existenErrores = false;
         }
+    }
+    
+
+    private static void ejecutarArchivo(String nombreArchivo) throws IOException {
+        FileReader archivo = new FileReader(nombreArchivo);
+        BufferedReader bufferedReader = new BufferedReader(archivo);
+
+        String linea;
+        while ((linea = bufferedReader.readLine()) != null) {
+            ejecutar(linea);
+        }
+
+        archivo.close();
     }
 
     private static void ejecutar(String source){

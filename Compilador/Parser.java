@@ -288,11 +288,15 @@ public class Parser
         {
             VAR_DECL();
         }
-        if(preanalisis.equals(NOT) || preanalisis.equals(RESTA) || preanalisis.equals(TRUE) || preanalisis.equals(FALSE) || 
+        else if(preanalisis.equals(NOT) || preanalisis.equals(RESTA) || preanalisis.equals(TRUE) || preanalisis.equals(FALSE) || 
            preanalisis.equals(NULL) || preanalisis.equals(THIS) || preanalisis.equals(NUMERO) || preanalisis.equals(STRING) || 
            preanalisis.equals(IDENTIFICADOR) || preanalisis.equals(PAR_ABRE) || preanalisis.equals(SUPER))
         {
             EXPR_STMT();
+        }
+        else if(preanalisis.equals(PUNTO_COMA))
+        {
+            coincidir(PUNTO_COMA);
         }
         else
         {
@@ -439,7 +443,7 @@ public class Parser
         {
             coincidir(LLAV_ABRE);
             BLOCK_DECL();
-            coincidir(PAR_CIERRE);
+            coincidir(LLAV_CIERRE);
         }
         else 
         {
@@ -674,11 +678,13 @@ public class Parser
         if(preanalisis.equals(RESTA))
         {
             coincidir(RESTA);
+            FACTOR();
             TERM_2();
         }
         else if(preanalisis.equals(SUMA))
         {
             coincidir(SUMA);
+            FACTOR();
             TERM_2();
         }
     }
@@ -974,3 +980,4 @@ public class Parser
     }
 
 }
+
