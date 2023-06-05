@@ -29,6 +29,7 @@ public class Scanner {
         keywords.put("for", Tokentype.FOR);
         keywords.put("fun", Tokentype.FUN);
         keywords.put("var", Tokentype.VAR);
+        keywords.put("class", Tokentype.CLASS);
     }
 
     Scanner(String source){
@@ -116,7 +117,7 @@ public class Scanner {
                     }
                     else if(caracter == '!')
                     {
-                        if(caracter == '=')
+                        if(nxtcaracter == '=')
                         {
                             tokens.add(new Token(Tokentype.DIFERENTE, "!=", i + 1));
                             i++;
