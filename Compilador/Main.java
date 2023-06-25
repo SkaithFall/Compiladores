@@ -64,22 +64,25 @@ public class Main {
         archivo.close();
     }
 
-    private static void ejecutar(String source){
+    private static void ejecutar(String source)
+    {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        for(Token token : tokens){
+        /*for(Token token : tokens){
             System.out.println(token);
-        }
+        }*/
 
         Parser parser = new Parser(tokens);
         parser.parse();
     }
-    static void error(int linea, String mensaje){
+    static void error(int linea, String mensaje)
+    {
         reportar(linea, "", mensaje);
     }
 
-    private static void reportar(int linea, String donde, String mensaje){
+    private static void reportar(int linea, String donde, String mensaje)
+    {
         System.err.println(
                 "[linea " + linea + "] Error " + donde + ": " + mensaje
         );
