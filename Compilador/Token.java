@@ -4,20 +4,20 @@ public class Token
 {
     final Tokentype type;
     final String lexeme;
-    final Object posicion;
-
-    public Token(Tokentype type, String lexeme, Object posicion)
-    {
-        this.type = type;
-        this.lexeme = lexeme;
-        this.posicion = posicion;
-    }
+    final Object literal;
 
     public Token(Tokentype type, String lexeme)
     {
         this.type = type;
         this.lexeme = lexeme;
-        this.posicion = null;
+        this.literal = null;
+    }
+
+    public Token(Tokentype type, String lexeme, Object literal)
+    {
+        this.type = type;
+        this.lexeme = lexeme;
+        this.literal = literal;
     }
 
     public Tokentype getType()
@@ -47,7 +47,7 @@ public class Token
     
     public String toString() 
     {
-        return type + ":" + lexeme + " " + posicion + "";
+        return type + ": " + lexeme + " | " + (literal == null ? " " : literal.toString());
     }
 
 
@@ -73,6 +73,7 @@ public class Token
             case RESTA:
             case MULTI:
             case DIV:
+            case ASIG:
             case IGUAL:
             case MAYOR:
             case MENOR:
@@ -140,7 +141,7 @@ public class Token
             case RESTA:
                 return 2;
             case IGUAL:
-                return 1;
+            case ASIG:
             case MAYOR:
             case MENOR:
             case MAYOR_IGUAL:

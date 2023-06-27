@@ -65,7 +65,7 @@ public class Parser
     
         if(!hayErrores && !preanalisis.equals(END))
         {
-        System.out.println("Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.type);
+        System.out.println("Error en la posición " + preanalisis.literal + ". No se esperaba el token " + preanalisis.type);
         }
         else if(!hayErrores && preanalisis.equals(END))
         {
@@ -86,7 +86,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". No se esperaba el token " + preanalisis.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". No se esperaba el token " + preanalisis.type);
         }           
     }
 
@@ -138,7 +138,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + CLASS.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + CLASS.type);
         }
     }
 
@@ -165,7 +165,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + FUN.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + FUN.type);
         }
     }
 
@@ -183,7 +183,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + IDENTIFICADOR.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + IDENTIFICADOR.type);
         }
     }
 
@@ -237,7 +237,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  Token tipo EXPRESSION");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  Token tipo EXPRESSION");
         }
     }
 
@@ -255,7 +255,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un Token tipo EXPRESSION ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un Token tipo EXPRESSION ");
         }
     }
 
@@ -276,7 +276,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + FOR.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + FOR.type);
         }
     }
 
@@ -301,7 +301,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + PAR_ABRE.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + PAR_ABRE.type);
         }           
     }
     
@@ -323,7 +323,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + NOT.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + NOT.type);
         }   
     }
 
@@ -355,7 +355,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + IF.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + IF.type);
         }
     }
 
@@ -383,7 +383,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + PRINT.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + PRINT.type);
         }
     }
 
@@ -400,7 +400,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + RETURN.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + RETURN.type);
         }
     }
 
@@ -431,7 +431,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + WHILE.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + WHILE.type);
         }
     }
 
@@ -448,7 +448,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + LLAV_ABRE.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + LLAV_ABRE.type);
         }
     }
 
@@ -482,7 +482,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -500,7 +500,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -529,7 +529,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -559,7 +559,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }     
     }
 
@@ -619,7 +619,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion);
+            System.out.println("Error en la posición " + preanalisis.literal);
         }    
     }
 
@@ -667,7 +667,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -703,7 +703,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -748,7 +748,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -767,7 +767,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -846,7 +846,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -865,7 +865,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -902,7 +902,7 @@ public class Parser
         else
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -944,7 +944,7 @@ public class Parser
         else 
         {
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  ");
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  ");
         }
     }
 
@@ -961,9 +961,6 @@ public class Parser
     }
 
 
-
-
-
     private void coincidir(Token t) 
     {
         if(hayErrores) return;
@@ -974,7 +971,7 @@ public class Parser
         }
         else{
             hayErrores = true;
-            System.out.println("Error en la posición " + preanalisis.posicion + ". Se esperaba un  " + t.type);
+            System.out.println("Error en la posición " + preanalisis.literal + ". Se esperaba un  " + t.type);
 
         }
     }

@@ -151,7 +151,7 @@ public class Scanner {
                     }
                     else if(caracter == '"')
                     {
-                        estado = 3;
+                        estado = 8;
                         lexema = lexema + caracter;
                         inicioLexema = i;
                     }
@@ -179,41 +179,85 @@ public class Scanner {
                     }
                     break;
                 case 2:
-                    if(Character.isDigit(caracter) || caracter == '.' )
-                    {
+                    if(Character.isDigit(caracter)){
+                        estado = 2;
                         lexema = lexema + caracter;
                     }
-                    else
-                    {
-                        if (lexema.contains("."))
-                        {
-                           try
-                           {
-                            tokens.add(new Token(Tokentype.NUMBER, lexema, inicioLexema + 1));
-                           } 
-                           catch (NumberFormatException e)
-                           {
-                            tokens.add(new Token(Tokentype.ERROR, lexema, inicioLexema + 1));
-                           } 
-                        }
-                        else 
-                        {
-                            try
-                            {
-                                tokens.add(new Token(Tokentype.NUMBER, lexema, inicioLexema + 1));
-                            } 
-                            catch (NumberFormatException e)
-                            {
-                                tokens.add(new Token(Tokentype.ERROR, lexema, inicioLexema + 1));
-                            }
-                        }
+                    else if(caracter == '.'){
+                        estado = 3;
+                        lexema = lexema + caracter;
+                    }
+                    else if(caracter == 'E'){
+                        estado = 5;
+                        lexema = lexema + caracter;
+                    }
+                    else{
+                        tokens.add(new Token(Tokentype.NUMBER, lexema, Double.valueOf(lexema)));
                         estado = 0;
-                        i--;
                         lexema = "";
-                        inicioLexema = 0;
+                        i--;
                     }
                     break;
                 case 3:
+                    if(Character.isDigit(caracter)){
+                        estado = 4;
+                        lexema = lexema + caracter;
+                    }
+                    else{
+                        //Lanzar error
+                    }
+                    break;
+                case 4:
+                    if(Character.isDigit(caracter)){
+                        estado = 4;
+                        lexema = lexema + caracter;
+                    }
+                    else if(caracter == 'E'){
+                        estado = 5;
+                        lexema = lexema + caracter;
+                    }
+                    else{
+                        tokens.add(new Token(Tokentype.NUMBER, lexema, Double.valueOf(lexema)));
+                        estado = 0;
+                        lexema = "";
+                        i--;
+                    }
+                    break;
+                case 5:
+                    if(caracter == '+' || caracter == '-'){
+                        estado = 6;
+                        lexema = lexema + caracter;
+                    }
+                    else if(Character.isDigit(caracter)){
+                        estado = 7;
+                        lexema = lexema + caracter;
+                    }
+                    else{
+                        // Lanzar error
+                    }
+                    break;
+                case 6:
+                    if(Character.isDigit(caracter)){
+                        estado = 7;
+                        lexema = lexema + caracter;
+                    }
+                    else{
+                        // Lanzar error
+                    }
+                    break;
+                case 7:
+                    if(Character.isDigit(caracter)){
+                        estado = 7;
+                        lexema = lexema + caracter;
+                    }
+                    else{
+                        tokens.add(new Token(Tokentype.NUMBER, lexema, Double.valueOf(lexema)));
+                        estado = 0;
+                        lexema = "";
+                        i--;
+                    }
+                    break;
+                case 8:
                     lexema = lexema + caracter;
                     if (caracter == '"') 
                     {
@@ -232,7 +276,7 @@ public class Scanner {
         if (estado != 0) {
             throw new Error("Error: No se encontró el cierre de las comillas para el lexema de tipo string.");
         }
-        tokens.add(new Token(Tokentype.END, "", source.length()));
+        tokens.add(new Token(Tokentype.END, ""));
 
         return tokens;
     }

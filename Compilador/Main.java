@@ -1,9 +1,11 @@
 package Compilador;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class Main {
@@ -11,6 +13,16 @@ public class Main {
     static boolean existenErrores = false;
 
     public static void main(String[] args) throws IOException {
+        if(args.length > 1) {
+            System.out.println("Uso correcto: interprete [script]");
+
+            // Convención defininida en el archivo "system.h" de UNIX
+            System.exit(64);
+        } else if(args.length == 1){
+            ejecutarArchivo(args[0]);
+        } else{
+            ejecutarPrompt();
+        }
         ejecutarPrompt();
     }
     
@@ -20,48 +32,22 @@ public class Main {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
 
-        StringBuilder entrada = new StringBuilder();
-        boolean salir = false;
-        
-        while (!salir) 
-        {
+        for(;;){
             System.out.print(">>> ");
             String linea = reader.readLine();
-
-            if (linea == null) 
-            {
-                if (entrada.length() > 0) 
-                {
-                    ejecutar(entrada.toString()); // Ejecutar la entrada concatenada
-                    entrada.setLength(0); // Reiniciar la entrada para la siguiente iteración
-                }
-                break;
-            }
-            
-            if (linea.equalsIgnoreCase("archivo")) 
-            {
-                System.out.print("Ingrese el nombre del archivo: ");
-                String nombreArchivo = reader.readLine();
-                ejecutarArchivo(nombreArchivo);
-            } else 
-            {
-                entrada.append(linea).append(" "); // Agregar la línea actual a la entrada con un espacio
-            }
+            if(linea == null) break; // Presionar Ctrl + D
+            ejecutar(linea);
             existenErrores = false;
         }
     }
     
 
-    private static void ejecutarArchivo(String nombreArchivo) throws IOException {
-        FileReader archivo = new FileReader(nombreArchivo);
-        BufferedReader bufferedReader = new BufferedReader(archivo);
+    private static void ejecutarArchivo(String path) throws IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get(path));
+        ejecutar(new String(bytes, Charset.defaultCharset()));
 
-        String linea;
-        while ((linea = bufferedReader.readLine()) != null) {
-            ejecutar(linea);
-        }
-
-        archivo.close();
+        // Se indica que existe un error
+        if(existenErrores) System.exit(65);
     }
 
     private static void ejecutar(String source)
@@ -75,6 +61,16 @@ public class Main {
 
         Parser parser = new Parser(tokens);
         parser.parse();
+
+        PostFija gpf = new PostFija(tokens);
+        List<Token> postfija = gpf.convert();
+
+        for(Token token : postfija)
+        {
+            System.out.println(token.toString());
+        }
+
+        
     }
     static void error(int linea, String mensaje)
     {
